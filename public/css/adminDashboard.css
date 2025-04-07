@@ -1,5 +1,5 @@
 body {
-  background-color:cadetblue;
+  background-color: cadetblue;
   font-family: sans-serif;
 }
 
@@ -33,7 +33,7 @@ th {
   font-weight: bold;
 }
 
-#updateSubmit{
+#updateSubmit {
   background-color: rgb(224, 99, 10);
   border: 1px none;
   border-radius: 5px;
@@ -57,10 +57,9 @@ form {
 #submit:hover {
   background-color: rgb(245, 197, 7);
   margin: 6px;
-
 }
 
-#updateSubmit:hover{
+#updateSubmit:hover {
   background-color: rgb(245, 197, 7);
   margin: 6px;
 }
@@ -75,7 +74,7 @@ input {
   padding: 5px;
 }
 
-#taskDescription{
+#taskDescription {
   background-color: rgb(187, 213, 245);
   width: 28vw;
   margin: 6px;
@@ -93,7 +92,6 @@ select {
   border-radius: 10px;
   padding: 5px;
   margin: 3px;
-
 }
 
 #delbtn {
@@ -104,23 +102,33 @@ select {
   width: 8vw;
   height: 35px;
   padding: 5px 5px;
-  
+
   font-weight: bold;
 }
 
 #updateTask {
-  background-color: rgb(50, 170, 2);
+  background-color: rgb(41, 129, 7);
   border: 1px none;
   border-radius: 5px;
   padding: 2px;
   width: 8vw;
   height: 35px;
   padding: 5px 5px;
-  
+
   font-weight: bold;
 }
 
-#update{
+#updateTask:hover {
+  background-color: rgb(61, 203, 5);
+  border: solid;
+}
+
+#delbtn:hover {
+  background-color: rgb(177, 8, 8);
+  border: solid;
+}
+
+#update {
   background-color: rgb(205, 169, 7);
   border: 1px none;
   border-radius: 5px;
@@ -132,7 +140,7 @@ select {
   font-weight: bold;
 }
 
-#submitTask{
+#submitTask {
   background-color: rgb(205, 96, 7);
   border: 1px none;
   border-radius: 5px;
@@ -144,12 +152,11 @@ select {
   font-weight: bold;
 }
 
-#submitTask:hover{
+#submitTask:hover {
   background-color: rgb(205, 169, 7);
 }
 
-
-#complted{
+#complted {
   background-color: rgb(205, 96, 7);
   border: 1px none;
   border-radius: 5px;
@@ -164,10 +171,10 @@ h1 {
   text-align: center;
 }
 
-h3{
-color: brown;
-font-weight: bold;
+h3 {
+  color: brown;
+  font-weight: bold;
 }
-h5{
-color: white;
+h5 {
+  color: white;
 }
