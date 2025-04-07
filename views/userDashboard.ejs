@@ -93,7 +93,7 @@
 
 
 <script>
-    const task_Id = "";
+    let task_Id = "";
     async function deleteTask(id){
     try{
         
@@ -146,11 +146,11 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
 
 
     const populateTask = async (
-    id,    
-    taskName, 
-    taskDescription, 
-    taskDueDate, 
-    priority, 
+        id,    
+  taskName, 
+  taskDescription, 
+  taskDueDate, 
+  priority
     
 ) => {
     try{
@@ -183,11 +183,11 @@ const updatTask = async () =>{
     try{
 
         const form = document.getElementById("taskForm");
-        id = task_Id;
-        taskName = form.elements["taskName"].value;
-        taskDescription = form.elements["taskDescription"].value;
-        taskDueDate = form.elements["taskDueDate"].value;
-        priority = form.elements["priority"].value;
+        const id = task_Id;
+        const taskName = form.elements["taskName"].value;
+        const taskDescription = form.elements["taskDescription"].value;
+        const taskDueDate = form.elements["taskDueDate"].value;
+        const priority = form.elements["priority"].value;
 
 
 
