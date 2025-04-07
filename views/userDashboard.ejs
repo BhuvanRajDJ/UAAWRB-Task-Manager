@@ -122,7 +122,7 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
         }else{
             isCompleted = "true";
         }
-        console.log("isComplted2: ",typeof(isCompleted), isCompleted);
+        // console.log("isComplted2: ",typeof(isCompleted), isCompleted);
         const completed = isCompleted;
         const response = await fetch(`/user/dashboard/${id}`, {
             method : "PATCH",
@@ -133,7 +133,7 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
                 "completed":isCompleted
             })
         });
-        console.log(response);
+        // console.log(response);
         if(response.ok){
         }
         location.reload(); 

@@ -57,7 +57,7 @@ const createUser = async (req, res) => {
 const userSignUpPage = async (req, res) =>{
   try{
 
-    await res.status(200).render("signup", {message:"signup"})
+    await res.status(200).render("signup", {message:""})
   }catch(error){
     res.status(500).render("signup", {message:"Internal server error"})
   }
