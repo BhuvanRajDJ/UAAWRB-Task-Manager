@@ -39,6 +39,7 @@
             </select> <br>
             
             <button type="submit" id="submit">Create Task</button>
+            <button type="button" id="updateSubmit" onclick="updatTask()" disabled>Update Task</button>
             
             </form> 
             </div>
@@ -57,7 +58,7 @@
                <hr>
                 <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
 <button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
-                <button type="button" id="update" onclick="updatTask(
+                <button type="button" id="update" onclick="populateTask(
                     '<%= task._id %>', '<%= task.taskName %>', '<%= task.taskDescription %>', '<%= task.taskDueDate%>', '<%= task.priority %>', '<%= task.userDetails %>')">Update</button>
 
             </div>
@@ -92,6 +93,7 @@
 
 
 <script>
+    const task_Id = "";
     async function deleteTask(id){
     try{
         
@@ -143,7 +145,7 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
         }
 
 
-    const updatTask = async (
+    const populateTask = async (
     id,    
     taskName, 
     taskDescription, 
@@ -152,21 +154,43 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
     
 ) => {
     try{
-        document.getElementById("submit").innerText = "Update"; 
+       
+        document.getElementById("submit").disabled = true;
+        document.getElementById("updateSubmit").disabled = false;
         const form = document.getElementById("taskForm");
         form.scrollIntoView({behavior:"smooth"});
         const formatDueDate = new Date(taskDueDate);
         const year = formatDueDate.getFullYear();
         const month = String(formatDueDate.getMonth() + 1).padStart(2,"0");
         const date = String(formatDueDate.getDate()).padStart(2, "0");
-
+        
         const formatedDate = `${year}-${month}-${date}`;
-  
+        task_Id = id;
         form.elements["taskName"].value = taskName;
         form.elements["taskDescription"].value = taskDescription;
         form.elements["taskDueDate"].value = formatedDate;
         form.elements["priority"].value = priority;
+        // form .elements["id"].value = id;
         
+        }catch(error){
+            console.error(error);
+        }
+
+
+    }
+
+const updatTask = async () =>{
+    try{
+
+        const form = document.getElementById("taskForm");
+        id = task_Id;
+        taskName = form.elements["taskName"].value;
+        taskDescription = form.elements["taskDescription"].value;
+        taskDueDate = form.elements["taskDueDate"].value;
+        priority = form.elements["priority"].value;
+
+
+
         const response = await fetch(`/user/dashboard/${id}`,{
             method:"PUT",
             headers:{
@@ -185,12 +209,11 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
             location.reload();
         }
 
-        }catch(error){
-            console.error(error);
-        }
-
+    }catch(error){
 
     }
+}
+
 
 </script>
 
