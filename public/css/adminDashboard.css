@@ -33,6 +33,17 @@ th {
   font-weight: bold;
 }
 
+#updateSubmit{
+  background-color: rgb(224, 99, 10);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 15vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
 .formContainer {
   padding-top: 6%;
   display: flex;
@@ -47,6 +58,11 @@ form {
   background-color: rgb(245, 197, 7);
   margin: 6px;
 
+}
+
+#updateSubmit:hover{
+  background-color: rgb(245, 197, 7);
+  margin: 6px;
 }
 
 input {

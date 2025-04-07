@@ -39,7 +39,7 @@
             </select> <br>
             
             <button type="submit" id="submit">Create Task</button>
-            <button type="button" id="updateSubmit" onclick="updatTask()" disabled>Update Task</button>
+            <button type="button" id="updateSubmit" onclick="updatTask()" style="display: none;">Update Task</button>
             
             </form> 
             </div>
@@ -155,8 +155,8 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
 ) => {
     try{
        
-        document.getElementById("submit").disabled = true;
-        document.getElementById("updateSubmit").disabled = false;
+        document.getElementById("submit").style.display = "none";
+        document.getElementById("updateSubmit").style.display = "block";
         const form = document.getElementById("taskForm");
         form.scrollIntoView({behavior:"smooth"});
         const formatDueDate = new Date(taskDueDate);
