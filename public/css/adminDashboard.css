@@ -1,0 +1,157 @@
+body {
+  background-color:cadetblue;
+  font-family: sans-serif;
+}
+
+table {
+  border: 2px solid black;
+  border-radius: 1%;
+  table-layout: auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+thead {
+  background-color: cadetblue;
+  border-radius: 5%;
+  font-weight: bold;
+}
+
+td,
+th {
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+#submit {
+  background-color: rgb(224, 99, 10);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 15vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+.formContainer {
+  padding-top: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form {
+  padding: 3px;
+}
+
+#submit:hover {
+  background-color: rgb(245, 197, 7);
+  margin: 6px;
+
+}
+
+input {
+  margin: 3px;
+  background-color: rgb(187, 213, 245);
+  width: 28vw;
+  height: 30px;
+  border: 2px solid rgb(5, 24, 82);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+#taskDescription{
+  background-color: rgb(187, 213, 245);
+  width: 28vw;
+  margin: 6px;
+
+  height: 30px;
+  border: 2px solid rgb(5, 24, 82);
+  border-radius: 10px;
+  padding: 5px;
+}
+select {
+  background-color: rgb(187, 213, 245);
+  width: 29vw;
+  height: 40px;
+  border: 2px solid rgb(5, 24, 82);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 3px;
+
+}
+
+#delbtn {
+  background-color: rgb(205, 30, 7);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 8vw;
+  height: 35px;
+  padding: 5px 5px;
+  
+  font-weight: bold;
+}
+
+#updateTask {
+  background-color: rgb(50, 170, 2);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 8vw;
+  height: 35px;
+  padding: 5px 5px;
+  
+  font-weight: bold;
+}
+
+#update{
+  background-color: rgb(205, 169, 7);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  align-self: center;
+  width: 28vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+#submitTask{
+  background-color: rgb(205, 96, 7);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  justify-items: center;
+  width: 20vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+#submitTask:hover{
+  background-color: rgb(205, 169, 7);
+}
+
+
+#complted{
+  background-color: rgb(205, 96, 7);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 8vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+}
+
+h3{
+color: brown;
+font-weight: bold;
+}
+h5{
+color: white;
+}

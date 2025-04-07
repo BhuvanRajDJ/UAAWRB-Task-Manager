@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    
+    <% if(message){
+        %>
+        <p style="color:red;"><%= message %></p>
+        <%
+    }%>
+    
+    <div class="container">
+        <h1>Admin Login</h1>
+    <form action="/adminlogin" method="POST">
+        <label for="email">Email:</label>
+    <input type="email" placeholder="email" name="email" required><br>
+    <label for="password">Password</label>
+    <input type="text" placeholder="password" name="password" required></br>
+    <button type="submit" id="submit">Submit</button>
+    </form>
+</div> 
+</body><HR>
+user: <a href="/"> Log-in</a> <br><HR>
+user<a href="/register"> sign-up</a><HR>
+</html>

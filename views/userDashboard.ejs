@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/css/adminDashboard.css">
+</head>
+<body id="main">
+    <h1>User Dashboard</h1>
+
+    <% if(message){%>
+        <p style="color:rgb(26, 206, 10);"><%= message %></p>
+    <%} %>
+
+    
+    <% if (usertasks) { %> 
+        <% const pendingTasks = usertasks.filter(task => task.completed == false) %>;
+        <% const completedTasks = usertasks.filter(task => task.completed != false) %>; 
+
+        <div class="formContainer">
+            <form id="taskForm" action="/user/dashboard" method="post">
+            
+            <label for="taskName">Title: </label>
+            <input type="text" name="taskName" placeholder="Title" required><br>
+            
+            <label for="taskDescription">Task Description: </label>
+            <textarea name="taskDescription" id="taskDescription" required rows="3"></textarea><br>
+            
+            <label for="taskDueDate">Due Date:</label>
+            <input type="date" name="taskDueDate" required><br>
+            
+            <label for="priority">Priority: </label>
+            <select name="priority">
+            <option value="">Select Priority</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            </select> <br>
+            
+            <button type="submit" id="submit">Create Task</button>
+            
+            </form> 
+            </div>
+            
+
+        <h1>Pending Tasks</h1>
+        <% pendingTasks.forEach((task, index) => { %>
+            <div class="taskPending" id="taskId<%= task._id %>">
+                <hr>
+               
+                
+                <h3> Name: <%= task.taskName %> </h3>
+                <h5> Description: <%= task.taskDescription %> </h5>
+                <h5>Due Date: <%= task.taskDueDate %> </h5>
+                <h5>Priority: <%= task.priority %> </h5>
+               <hr>
+                <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
+<button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
+                <button type="button" id="update" onclick="updatTask(
+                    '<%= task._id %>', '<%= task.taskName %>', '<%= task.taskDescription %>', '<%= task.taskDueDate%>', '<%= task.priority %>', '<%= task.userDetails %>')">Update</button>
+
+            </div>
+       <% }) %>
+        <hr>
+        <h1>Complted Tasks</h1>
+        <hr>
+       <% completedTasks.forEach((task, index) => { %>
+        <div class="taskPending" id="taskId<%= task._id %>">
+            <hr>
+            
+            <h3> <%= task.taskName %> </h3>
+            <h5> <%= task.taskDescription %> </h5>
+            <h5> <%= task.taskDueDate %> </h5>
+            <h5> <%= task.priority %> </h5>
+        
+            <hr>
+            <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
+            <button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
+        </div>
+   <% }) %>
+    
+    <%} %>
+
+    
+
+    <% if(error){ %> 
+        <p style="color:red"><%= error %></p>
+        <%}
+    %>
+
+
+
+<script>
+    async function deleteTask(id){
+    try{
+        
+        const response = await  fetch(`/user/dashboard/${id}`, {
+            method: 'DELETE',
+            headers:{
+                "Content-Type": "application/json",
+            }
+        });
+      if(response.ok){
+            alert("Task Deleted successfully!"); 
+            location.reload();
+
+        }
+    }catch(error){
+        console.error("error:",error.message);
+    }
+    }
+
+ async function completedTask(isCompleted, id)
+        {
+console.log("isComplted1: ",typeof(isCompleted), isCompleted);
+    try{
+        if(isCompleted == "true"){
+            isCompleted = "false";
+        }else{
+            isCompleted = "true";
+        }
+        console.log("isComplted2: ",typeof(isCompleted), isCompleted);
+        const completed = isCompleted;
+        const response = await fetch(`/user/dashboard/${id}`, {
+            method : "PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "completed":isCompleted
+            })
+        });
+        console.log(response);
+        if(response.ok){
+        }
+        location.reload(); 
+        
+
+    }catch(error){
+        console.log(error.message)
+    }
+        }
+
+
+    const updatTask = async (
+    id,    
+    taskName, 
+    taskDescription, 
+    taskDueDate, 
+    priority, 
+    
+) => {
+    try{
+        document.getElementById("submit").innerText = "Update"; 
+        const form = document.getElementById("taskForm");
+        form.scrollIntoView({behavior:"smooth"});
+        const formatDueDate = new Date(taskDueDate);
+        const year = formatDueDate.getFullYear();
+        const month = String(formatDueDate.getMonth() + 1).padStart(2,"0");
+        const date = String(formatDueDate.getDate()).padStart(2, "0");
+
+        const formatedDate = `${year}-${month}-${date}`;
+  
+        form.elements["taskName"].value = taskName;
+        form.elements["taskDescription"].value = taskDescription;
+        form.elements["taskDueDate"].value = formatedDate;
+        form.elements["priority"].value = priority;
+        
+        const response = await fetch(`/user/dashboard/${id}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body: JSON.stringify({
+                "taskName":taskName, 
+                "taskDescription":taskDescription, 
+                "taskDueDate":taskDueDate, 
+                "priority":priority,                 
+            })
+        });
+
+        if(response.ok){
+            alert("Task Updated successfully");
+            location.reload();
+        }
+
+        }catch(error){
+            console.error(error);
+        }
+
+
+    }
+
+</script>
+
+
+</body>
+</html>

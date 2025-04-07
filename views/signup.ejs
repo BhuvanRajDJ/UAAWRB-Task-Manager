@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    <h1>Sign UP</h1>
+    <div class="container">
+<form action="/signup" method="POST">
+<% if(message) {
+    %>
+    <p style="color:red"><%= message %></p>
+    <%
+}%>
+
+<label for="name">Full Name: </label>
+<input type="text" minlength="3" maxlength="50"  
+placeholder="Enter your name" name="userName" id="name" required><br>
+
+<label for="email">Email:</label>
+<input type="email" placeholder="Email" name="email" id="email" required><br>
+
+<label for="dateOfBirth">DOB:</label>
+<input type="date" placeholder="dateOfBirth" name="dateOfBirth" id="date" required><br>
+
+<label for="age">Age:</label>
+<input type="number" placeholder="age" name="age" id="age" required><br>
+
+<label for="password">Password:</label>
+<input type="password" placeholder="password"
+pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$!%*&]).{8,}"
+name="password" id="password" required ><br>
+
+<label for="confirmpassword">Confirm Password:</label>
+<input type="password" placeholder="Confirm Password" name="confirmpassword" id="confirmpassword" required><br>
+
+<label for="userRole">User Role:</label>
+<select name="userRole" value="" >
+    <option value="user" selected>User</option>
+</select><br>
+
+<button type="submit" id="submit">Sign up</button>
+    </form>
+
+    
+</div>
+<hr>
+user: <a href="/"> Log-in</a> <br><HR>
+admin<a href="/adminlogin"> Log-in</a>
+
+<hr>
+</body>
+</html>

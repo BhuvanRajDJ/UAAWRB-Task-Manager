@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+</head>
+<body>
+    
+    <% if(message)
+    {
+        %>
+        <p style="color:rgb(1, 7, 0); font-size: large; font-family: sans-serif; text-align: center;"><%= message %></p>
+    <%
+    } 
+    %>
+
+    
+
+    <% if(error){ %> 
+        <p style="color:red; text-align: center;font-size: larger;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><%= error %></p>
+        <%}
+    %>
+</body>
+</html>

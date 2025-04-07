@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/adminDashboard.css">
+</head>
+<h1>Admin Dashboard</h1>
+<hr>
+
+<body id="main">
+    <% if(message){%>
+        <p style="color:rgb(81, 255, 0);"><%= message %></p>
+    <% } %>
+<hr>
+
+<div class="formContainer">
+    <form id="taskForm" >
+    
+<input type="text" name="taskName" placeholder="Title" required><br>
+    
+    
+    <textarea name="taskDescription" id="taskDescription" required rows="3" placeholder="Task Description"></textarea><br>
+    
+
+    <input type="date" name="taskDueDate" required><br>
+    
+   
+    <select name="priority">
+    <option value="">Select Priority</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+    </select> <br>
+
+    <input type="text" name="id" value="" placeholder="id"><br>
+   
+    <button type="button" id="submitTask" onclick="updateTask()">Update</button>
+    
+    </form> 
+    </div>
+<hr>
+<hr>
+
+
+<form id="filterForm">
+<input type="text" name="userName" id="name" placeholder="Search user name...">
+<select name="priority" id="priority">
+    <option value="">Select Priority</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+</select>
+<select name="isCompleted" id="completed">
+    <option value="">Select the status of task</option>
+    <option value="true">Completed</option>
+    <option value="false">Pending</option>
+</select>
+<button type="submit" id="submit">Search</button>
+</form>
+<hr>
+<hr>
+
+<% if(allusersdata) {%>
+    
+    <table>
+        <thead>
+            <td>SL. No</td>
+            <td>Name</td>
+            <td>email</td>
+            <td>age</td>
+            <td>dateOfBirth</td>
+            <td>Task Name</td>
+            <td>Task Description</td>
+            <td>Task taskDueDate</td>
+            <td>Task priority</td>
+            <td>Task completed</td>
+            <td>Delete Task </td>
+            <td>Delete User </td>
+        </thead>
+        <tbody>
+            <% allusersdata.forEach( (item, index) => { %>
+            <tr> 
+                <td><%= index + 1 %></td>
+                <td><%= item.userDetails.userName %></td>
+                <td><%= item.userDetails.email %></td>
+                <td><%= item.userDetails.age %></td>
+                <td><%= item.userDetails.dateOfBirth %></td>
+                <td><%= item.taskName %></td>
+                <td><%= item.taskDescription %></td>
+                <td><%= item.taskDueDate %></td>
+                <td><%= item.priority %></td>
+                <td><%= item.completed %></td>
+                <td><button type="button" id="delbtn" onclick="deleteTask('<%= item._id %>')">Delete</button></td>
+                <td><button type="button" id="delbtn" onclick="deleteUser('<%= item.userDetails._id %>')">Delete</button></td>
+                <td><button type="button" id="updateTask" onclick="populateTask('<%= item._id %>','<%=item.taskName %>','<%=item.taskDescription %>','<%=item.taskDueDate %>','<%=item.priority %>')">Update</button></td>
+            </tr>
+            <%}) %>
+        </tbody>
+    </table>
+    
+    <%
+} %>
+
+<script>
+    
+    document.getElementById("filterForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+        const userName = event.target.userName.value;
+        const priority = event.target.priority.value;
+        const completed = event.target.isCompleted.value;
+
+        const response = await fetch("/admin/dashboard/filter", {
+            method:"post",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body:JSON.stringify({
+                "userName": userName,
+                "priority": priority,
+                "completed": completed
+            })
+        });
+        
+        const data = await response.text();
+        console.log("Data: ",data);
+        if(response.ok){
+            document.getElementById("main").innerHTML = data;
+        }
+                   
+        });
+
+const deleteTask = async (id) => {
+try{
+const response = await fetch(`/admin/dashboard/${id}`, {
+    method:"delete",
+    headers:{
+        "Content-Type":"application/json",
+    }
+});
+
+if(response.ok){
+     location.reload();   
+    }
+}catch(error){
+    console.log(error);
+}
+}
+
+const deleteUser = async (id)=> {
+try{
+const response =  await fetch(`/admin/dashboard/deleteUser/${id}`, {
+    method:"delete",
+    headers:{
+        "Content-Type":"application/json",
+    }
+});
+if(response.ok){
+    location.reload();
+}
+}catch(error){
+    console.log(error);
+}
+}
+
+
+const updateTask = async () => {
+    try{
+        const form = document.getElementById("taskForm");
+        id = form.elements["id"].value;
+        taskName = form.elements["taskName"].value;
+        taskDescription = form.elements["taskDescription"].value;
+        taskDueDate = form.elements["taskDueDate"].value;
+        priority = form.elements["priority"].value;
+
+        console.log("id: ",id);
+
+        const response = await fetch(`/admin/dashboard/${id}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+            },
+            body: JSON.stringify({
+                "taskName":taskName, 
+                "taskDescription":taskDescription, 
+                "taskDueDate":taskDueDate, 
+                "priority":priority,                 
+            })
+        });
+
+        if(response.ok){
+            location.reload();
+        }
+    }catch(error){
+        console.log(error);
+    }
+}
+
+
+
+
+const populateTask = async (id, taskName, taskDescription,taskDueDate, priority) => {
+    try{
+         
+        const form = document.getElementById("taskForm");
+        form.scrollIntoView({behavior:"smooth"});
+        const formatDueDate = new Date(taskDueDate);
+        const year = formatDueDate.getFullYear();
+        const month = String(formatDueDate.getMonth() + 1).padStart(2,"0");
+        const date = String(formatDueDate.getDate()).padStart(2, "0");
+
+        const formatedDate = `${year}-${month}-${date}`;
+  
+        form.elements["taskName"].value = taskName;
+        form.elements["taskDescription"].value = taskDescription;
+        form.elements["taskDueDate"].value = formatedDate;
+        form.elements["priority"].value = priority;
+        form .elements["id"].value = id;
+
+    }catch(error){
+        console.log(error);
+    }
+    
+}
+
+    </script> 
+
+</body>
+</html>
