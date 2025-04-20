@@ -87,10 +87,16 @@
         <div class="taskPending" id="taskId<%= task._id %>">
             <hr>
             
-            <h3> <%= task.taskName %> </h3>
-            <h5> <%= task.taskDescription %> </h5>
-            <h5> <%= task.taskDueDate %> </h5>
-            <h5> <%= task.priority %> </h5>
+            <h3>Task Name: <%= task.taskName %> </h3>
+            <h5>Task Description: <%= task.taskDescription %> </h5>
+            <% const dueDate1 = task.taskDueDate %>
+            <% const date1  = new Date(dueDate1) %>
+            <% const day1 = String(date1.getDate()).padStart(2,'0') %>
+            <% const month1 = String(date1.getMonth()+1).padStart(2,'0') %>
+            <% const year1 = String(date1.getFullYear()) %>
+            <% const newDueDate = `${day1}-${month1}-${year1}` %>
+            <h5>Due Date: <%= newDueDate  %> </h5>
+            <h5>Priority:  <%= task.priority %> </h5>
         
             <hr>
             <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
