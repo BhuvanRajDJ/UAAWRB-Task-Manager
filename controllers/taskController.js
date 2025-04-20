@@ -4,17 +4,20 @@ const UserModel = require("../models/UserModel");
 
 const fetchTask = async (req, res) => {
   const userDetails = req.user.id;
+  const name = req.user.userName
+  const email = req.user.email
   try {
-    const usertasks = await TasksModel.find({ userDetails });
+    const usertasks = await TasksModel.find({ userDetails:userDetails }).populate("userDetails", "_id email userName dateOfBirth");
 
     res
       .status(200)
-      .render("userDashboard", { usertasks, message: "", error: "" });
+      .render("userDashboard", { name, email, usertasks, message: "", error: "" });
     // console.log(usertasks);
     // console.log(userDetails);
   } catch (error) {
     res.status(500).render("error", {
-      error: `Couldn't fetch the task an error occured ${error.message}`,
+      error: `Couldn't fetch the task an error occured 
+      ${error.message}`,
       message: "",
     });
   }
@@ -105,6 +108,9 @@ const deleteTask = async (req, res) => {
 const fetchAllTasks = async (req, res) => {
   try {
     const AllUserTasks = await TasksModel.find({});
+    const Name = req.user.userName;
+    const Email = req.user.email;
+
     const allusers = await UserModel.find({});
 
     const allusersdatas = await TasksModel.find().populate(
@@ -114,7 +120,7 @@ const fetchAllTasks = async (req, res) => {
     const allusersdata = allusersdatas.filter((item) => {
       return item.userDetails && item.userDetails.userName;
     });
-    res.status(200).render("adminDashboard", { allusersdata, message: "" });
+    res.status(200).render("adminDashboard", { Name, Email, allusersdata, message: "" });
   } catch (error) {
     res
       .status(500)
@@ -200,6 +206,8 @@ const updateUserTask = async (req, res) => {
 
 const filterTasks = async (req, res) => {
   try {
+    const Name = req.user.userName;
+    const Email = req.user.email;
     const { userName, priority, completed } = req.body;
     const allDetails = await TasksModel.find({}).populate(
       "userDetails",
@@ -215,7 +223,7 @@ const filterTasks = async (req, res) => {
       );
     });
 
-    res.status(200).render("adminDashboard", { allusersdata, message: "" });
+    res.status(200).render("adminDashboard", { Name, Email, allusersdata, message: "" });
   } catch (error) {
     res.render("error", {
       message: "Internal Server Error",

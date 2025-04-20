@@ -15,13 +15,9 @@ const UserSchema = new Schema({
     type: Date,
     required: true,
   },
-  age: {
-    type: Number,
-    required: true,
-  },
   password: {
-    type: String,
-    required: true,
+  type: String,
+  required: true,
   },
   confirmpassword: {
     type: String,

@@ -7,7 +7,9 @@ const {
   adminAuthenticationToken,
   userLoginpage,
   userSignUpPage,
-  loginAdminpage
+  loginAdminpage,
+  logOut, 
+  adminLogOut
 } = require("../controllers/UserController");
 const {
   createTask,
@@ -34,12 +36,14 @@ router.get("/user/dashboard", authenticationToken, fetchTask);
 router.put("/user/dashboard/:id", authenticationToken, updateTask);
 router.patch("/user/dashboard/:id", authenticationToken, updateTask);
 router.delete("/user/dashboard/:id", authenticationToken, deleteTask);
+router.get("/user/logout", authenticationToken, logOut);
 
 router.get("/admin/dashboard", adminAuthenticationToken, fetchAllTasks);
 router.post("/admin/dashboard/filter", adminAuthenticationToken, filterTasks);
 router.delete("/admin/dashboard/:id", adminAuthenticationToken, deleteUserTask);
 router.delete("/admin/dashboard/deleteUser/:id",adminAuthenticationToken, deleteUser);
 router.put("/admin/dashboard/:id",adminAuthenticationToken,updateUserTask)
+router.get("/admin/logout", adminLogOut);
 
 
 module.exports = router;

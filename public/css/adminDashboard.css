@@ -106,6 +106,22 @@ select {
   font-weight: bold;
 }
 
+#logout{
+  background-color: rgb(139, 139, 139);
+  border: 1px none;
+  border-radius: 5px;
+  padding: 2px;
+  width: 8vw;
+  height: 35px;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+#logout:hover{
+  background-color: rgb(195, 194, 194);
+  border: solid;
+}
+
 #updateTask {
   background-color: rgb(41, 129, 7);
   border: 1px none;
@@ -140,6 +156,13 @@ select {
   font-weight: bold;
 }
 
+#update:hover {
+  background-color: rgb(245, 201, 8);
+  border: solid;
+}
+
+
+
 #submitTask {
   background-color: rgb(205, 96, 7);
   border: 1px none;
@@ -165,6 +188,11 @@ select {
   height: 35px;
   padding: 5px 5px;
   font-weight: bold;
+}
+
+#complted:hover {
+  background-color:  rgb(244, 113, 6);
+  border: solid;
 }
 
 h1 {

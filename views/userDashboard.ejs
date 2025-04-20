@@ -8,6 +8,15 @@
 </head>
 <body id="main">
     <h1>User Dashboard</h1>
+    <% if(name) {%> 
+        <h3 style="color:black;">Name: <%= name %></h3>    
+    <%} %>
+
+    <% if(email) {%> 
+    <h3 style="color: black;">Email: <%= email %></h3>
+    <%} %>
+
+    <button id="logout" onclick="logout()">LogOut</button>
 
     <% if(message){%>
         <p style="color:rgb(26, 206, 10);"><%= message %></p>
@@ -15,8 +24,8 @@
 
     
     <% if (usertasks) { %> 
-        <% const pendingTasks = usertasks.filter(task => task.completed == false) %>;
-        <% const completedTasks = usertasks.filter(task => task.completed != false) %>; 
+        <% const pendingTasks = usertasks.filter(task => task.completed == false) %>
+        <% const completedTasks = usertasks.filter(task => task.completed != false) %>
 
         <div class="formContainer">
             <form id="taskForm" action="/user/dashboard" method="post">
@@ -39,7 +48,7 @@
             </select> <br>
             
             <button type="submit" id="submit">Create Task</button>
-            <button type="button" id="updateSubmit" onclick="updatTask()" style="display: none;">Update Task</button>
+            <button type="button" id="updateSubmit" onclick="updateTask()" style="display: none;">Update Task</button>
             
             </form> 
             </div>
@@ -53,13 +62,21 @@
                 
                 <h3> Name: <%= task.taskName %> </h3>
                 <h5> Description: <%= task.taskDescription %> </h5>
-                <h5>Due Date: <%= task.taskDueDate %> </h5>
+                
+                <% const dueDate = task.taskDueDate %>
+                <% const date  = new Date(dueDate) %>
+                <% const day = String(date.getDate()).padStart(2,'0') %>
+                <% const month = String(date.getMonth()+1).padStart(2,'0') %>
+                <% const year = String(date.getFullYear()) %>
+                <% const newDueDate = `${day}-${month}-${year}` %>
+
+                <h5>Due Date: <%= newDueDate %> </h5>
                 <h5>Priority: <%= task.priority %> </h5>
                <hr>
                 <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
-<button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
+                <button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
                 <button type="button" id="update" onclick="populateTask(
-                    '<%= task._id %>', '<%= task.taskName %>', '<%= task.taskDescription %>', '<%= task.taskDueDate%>', '<%= task.priority %>', '<%= task.userDetails %>')">Update</button>
+                    '<%= task._id %>', '<%= task.taskName %>', '<%= task.taskDescription %>', '<%= task.taskDueDate%>', '<%= task.priority %>', '<%= task.userDetails._id %>')">Update</button>
 
             </div>
        <% }) %>
@@ -77,7 +94,7 @@
         
             <hr>
             <button type="button" onclick="deleteTask(`<%= task._id %>`)" id="delbtn">Delete</button>
-            <button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Completed</button>
+            <button type="button" onclick="completedTask('<%= task.completed %>', '<%= task._id %>')" id="complted">Pending</button>
         </div>
    <% }) %>
     
@@ -145,7 +162,7 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
         }
 
 
-    const populateTask = async (
+const populateTask = async (
         id,    
   taskName, 
   taskDescription, 
@@ -179,7 +196,7 @@ console.log("isComplted1: ",typeof(isCompleted), isCompleted);
 
     }
 
-const updatTask = async () =>{
+const updateTask = async () =>{
     try{
 
         const form = document.getElementById("taskForm");
@@ -206,10 +223,25 @@ const updatTask = async () =>{
 
         location.reload();
     }catch(error){
-
+        console.error(error);
     }
 }
 
+const logout = async () => {
+    try{
+        const response = await fetch("/user/logout",{
+            method: "get",
+            
+        });
+        if(response.ok){
+            // location.reload();
+            window.location.href="/";
+        }
+
+    }catch(error){
+        console.error(error);
+    }
+}
 
 </script>
 

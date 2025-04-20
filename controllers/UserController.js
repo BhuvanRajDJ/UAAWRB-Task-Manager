@@ -13,7 +13,6 @@ const ROLE = process.env.ROLE;
 const createUser = async (req, res) => {
   const {
     userRole,
-    age,
     dateOfBirth,
     userName,
     email,
@@ -24,7 +23,7 @@ const createUser = async (req, res) => {
     const existinguser = await UserModel.findOne({ email });
 
     if (email == AdminEmail) {
-      return res.status(400).render("signup", {message:"You are not allowed to create an account with this email."});
+      return res.status(400).render("signup", {message:"User already exists, try another email."});
     } else if (existinguser) {
       return res.status(400).render("signup", {message:"User already exists, try another email."});
     }
@@ -35,13 +34,11 @@ const createUser = async (req, res) => {
     }
 
     const hashedpassword = await bcrypt.hash(password, 10);
-
     const user = new UserModel({
       userName,
       email,
       password: hashedpassword,
       userRole,
-      age,
       dateOfBirth,
     });    
     await user.save();
@@ -63,22 +60,20 @@ const userSignUpPage = async (req, res) =>{
   }
 }
 
-
 const signinuser = async (req, res) => {
   const { email, password } = req.body;
   try {
     
     const user = await UserModel.findOne({ email });
     if (!user) {
- 
-      return res.status(400).render("index", {message: "User does not exists"});
+        return res.status(400).render("index", {message: "User does not exists"});
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.status(400).render("index",{message:"Password does not match"});
     }
     const token = jwt.sign(
-      { email: email, id: user._id, userName: user.userName },
+      { email: email, id: user._id, userName: user.userName, role: "user" },
       SECRET_KEY,
       {
         expiresIn: "2h",
@@ -104,13 +99,25 @@ const userLoginpage = async (req, res) => {
   }
 }
 
+const logOut = async (req, res) => {
+  try{
+    res.clearCookie("token");
+    res.status(200).send("logged_Out");
+    
+  }catch(error){
+    res.status(500).render("error", {
+      error:`Couldn't log out an error occured ${error.message}`,
+      message:""
+    })
+  }
+}
 
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (email === AdminEmail && password === AdminPassword) {
       const token = jwt.sign(
-        { email: AdminEmail, id: AdminId, userName: AdminName },
+        { email: AdminEmail, id: AdminId, userName: AdminName, role:ROLE },
         SECRET_KEY,
         { expiresIn: "2h" }
       );
@@ -134,6 +141,18 @@ const loginAdminpage = async (req, res) => {
     res.status(200).render("adminLogin", {message:""});
   }catch(error){
     res.status(500).render("adminLogin", {message:`Internal server error, error:",${error.message}`})
+  }
+}
+
+const adminLogOut = async (req, res) => {
+  try{
+    res.clearCookie("adminToken");
+    res.status(200).send("logged_Out");
+  }catch(error){
+    res.status(500).render("error", {
+      error:`Couldn't log out an error occured ${error.message}`,
+      message:""
+    })
   }
 }
 
@@ -179,9 +198,4 @@ try{
 }
 
 
-
-
-
-
-
-module.exports = { createUser, signinuser, loginAdmin, authenticationToken, userLoginpage, userSignUpPage, loginAdminpage, adminAuthenticationToken };
+module.exports = { createUser, signinuser, loginAdmin, authenticationToken, userLoginpage, userSignUpPage, loginAdminpage, adminAuthenticationToken, logOut, adminLogOut };

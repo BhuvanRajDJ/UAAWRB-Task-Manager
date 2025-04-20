@@ -10,7 +10,15 @@
 <hr>
 
 <body id="main">
-    <% if(message){%>
+    <% if(Name) { %>
+        <h2>Name: <%= Name %></h2>
+        <%} %>
+
+    <% if(Email) { %>
+    <h2>email:<%= Email %></h2>    
+    <%}%>
+<button id="logout" onclick="logOut()">Logout</button>
+    <% if(message){ %>
         <p style="color:rgb(81, 255, 0);"><%= message %></p>
     <% } %>
 <hr>
@@ -86,11 +94,25 @@
                 <td><%= index + 1 %></td>
                 <td><%= item.userDetails.userName %></td>
                 <td><%= item.userDetails.email %></td>
-                <td><%= item.userDetails.age %></td>
-                <td><%= item.userDetails.dateOfBirth %></td>
+                <% const currentDate = new Date() %>
+                <% const DOB = new Date(item.userDetails.dateOfBirth) %>
+                <% const ageInMiliSec = currentDate - DOB %>
+                <% const age = Math.floor(ageInMiliSec/(1000 * 365 * 24 * 60 * 60)) %>
+                <% const day = String(DOB.getDate()).padStart(2, '0') %>
+                <% const month = String(DOB.getMonth()+1).padStart(2,'0') %>
+                <% const year = String(DOB.getFullYear()) %>
+                <% const dofb= `${day}-${month}-${year}` %>
+                <td><%= age %></td>
+                <td><%= dofb %></td>
                 <td><%= item.taskName %></td>
                 <td><%= item.taskDescription %></td>
-                <td><%= item.taskDueDate %></td>
+                <% const dueDate = item.taskDueDate %>
+                <% const date  = new Date(dueDate) %>
+                <% const day1 = String(date.getDate()).padStart(2,'0') %>
+                <% const month1 = String(date.getMonth()+1).padStart(2,'0') %>
+                <% const year1 = String(date.getFullYear()) %>
+                <% const newDueDate = `${day1}-${month1}-${year1}` %>
+                <td><%= newDueDate %></td>
                 <td><%= item.priority %></td>
                 <td><%= item.completed %></td>
                 <td><button type="button" id="delbtn" onclick="deleteTask('<%= item._id %>')">Delete</button></td>
@@ -223,6 +245,19 @@ const populateTask = async (id, taskName, taskDescription,taskDueDate, priority)
         console.log(error);
     }
     
+}
+
+const logOut = async () => {
+    try{
+        const response = await fetch("/admin/logout",{
+            method:"GET"
+        });
+        if(response.ok){
+            window.location.href = "/adminlogin";
+        }
+    }catch(error){
+        console.log(error);
+    }
 }
 
     </script> 
