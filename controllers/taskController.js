@@ -211,7 +211,7 @@ const filterTasks = async (req, res) => {
     const { userName, priority, completed } = req.body;
     const allDetails = await TasksModel.find({}).populate(
       "userDetails",
-      "email userName dateOfBirth age"
+      "email userName dateOfBirth"
     );
 
     const allusersdata = allDetails.filter((item) => {
